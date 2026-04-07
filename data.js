@@ -406,10 +406,13 @@ const PARTNERS = [
   { name: "NCI",                           category: "MSP",                sovereignty: 2, tier: 3, description: "Managed service provider." },
   { name: "Seclia",                        category: "MSP",                sovereignty: 2, tier: 3, description: "Managed service provider." },
   { name: "Computacenter",                 category: "MSP",                sovereignty: 2, tier: 3, description: "IT Service Provider" },
+  { name: "CEGEKA",                 category: "MSP",                sovereignty: 2, tier: 3, description: "IT Service Provider" },
   { name: "Palo Alto",                     category: "Security",           sovereignty: 4, tier: 2, description: "Security-focused partner." },
   { name: "Deloitte",                      category: "Systems Integrator",  sovereignty: 2, tier: 3, description: "Systems integrator." },
   { name: "Red Hat VM Migration Services", category: "Migration",           sovereignty: 3, tier: 3, description: "Migration-oriented services." },
-  { name: "Mistral AI",                    category: "AI & Data Platforms", sovereignty: 4, tier: 2, description: "AI partner for model choice." },
+  { name: "Mistral AI",                    category: "AI & Data Platforms", sovereignty: 4, tier: 2, description: "Sovereign AI partner for  EU models." },
+  { name: "MongoDB",                       category: "AI & Data Platforms", sovereignty: 4, tier: 2, description: "AI partner for Database including Vector." },
+  
 ];
 
 
