@@ -1,0 +1,754 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sovereign Core Products</title>
+  <style>
+    :root {
+      --text: #161616;
+      --muted: #525252;
+      --line: #e0e0e0;
+      --bg: #ffffff;
+      --soft: #f4f4f4;
+      --soft-2: #fafafa;
+      --accent: #0f62fe;
+      --dark: #161616;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+    a { color: inherit; text-decoration: none; }
+    .topbar {
+      background: #161616;
+      color: #fff;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .topbar-inner {
+      width: min(1240px, 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 14px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 600;
+      letter-spacing: .02em;
+    }
+    .brand-mark {
+      width: 58px;
+      height: 18px;
+      background: linear-gradient(to bottom,
+        #fff 0 2px, transparent 2px 4px,
+        #fff 4px 6px, transparent 6px 8px,
+        #fff 8px 10px, transparent 10px 12px,
+        #fff 12px 14px, transparent 14px 16px,
+        #fff 16px 18px);
+      opacity: .95;
+    }
+    .navlinks { display: flex; gap: 22px; color: #c6c6c6; }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(105deg, rgba(255,255,255,.96), rgba(255,255,255,.88)),
+        radial-gradient(circle at 75% 20%, rgba(15,98,254,.10), transparent 28%),
+        linear-gradient(145deg, #f5f7fb 0%, #eef2f7 42%, #f8f8f8 100%);
+      border-bottom: 1px solid var(--line);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(135deg, rgba(15,98,254,.08) 20%, transparent 20%),
+        linear-gradient(315deg, rgba(120,120,120,.04) 20%, transparent 20%);
+      background-size: 380px 220px;
+      pointer-events: none;
+      opacity: .7;
+    }
+    .container {
+      width: min(1240px, calc(100% - 48px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .breadcrumbs {
+      font-size: 14px;
+      color: var(--muted);
+      padding: 18px 0 0;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .85fr;
+      gap: 36px;
+      align-items: center;
+      padding: 26px 0 52px;
+    }
+    h1 {
+      font-size: clamp(2.35rem, 5vw, 4.2rem);
+      line-height: .98;
+      letter-spacing: -0.04em;
+      margin: 10px 0 16px;
+      max-width: 760px;
+      font-weight: 400;
+    }
+    .hero p {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.55;
+      margin: 0 0 26px;
+    }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 14px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border: 1px solid var(--dark);
+      font-size: 15px;
+      transition: .15s ease;
+    }
+    .btn.primary {
+      background: var(--dark);
+      color: #fff;
+      border-color: var(--dark);
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .hero-panel {
+      background: rgba(255,255,255,.82);
+      border: 1px solid var(--line);
+      padding: 24px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 8px 32px rgba(0,0,0,.06);
+    }
+    .hero-panel h3 {
+      margin: 0 0 14px;
+      font-size: 1.08rem;
+      font-weight: 500;
+    }
+    .hero-panel ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      display: grid;
+      gap: 10px;
+      font-size: .97rem;
+      line-height: 1.45;
+    }
+    section { padding: 38px 0 24px; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 22px;
+    }
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+    }
+    .section-head p {
+      margin: 0;
+      max-width: 620px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: .98rem;
+    }
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .category-card, .product-card, .partner-card {
+      border: 1px solid var(--line);
+      background: #fff;
+      min-height: 100%;
+      transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+    }
+    .category-card:hover, .product-card:hover, .partner-card:hover {
+      border-color: #8a8a8a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,.04);
+    }
+    .category-card {
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+    }
+    .category-card .eyebrow,
+    .product-card .eyebrow,
+    .partner-card .eyebrow {
+      font-size: .76rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #6f6f6f;
+    }
+    .category-card h3,
+    .product-card h3,
+    .partner-card h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+    .category-card p,
+    .product-card p,
+    .partner-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: .95rem;
+    }
+    .tag {
+      display: inline-block;
+      align-self: start;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      font-size: .78rem;
+      color: #4d5358;
+    }
+    .products-wrap { display: grid; gap: 28px; }
+    .product-group { display: grid; gap: 14px; }
+    .product-group-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 10px;
+    }
+    .product-group-head h3 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 400;
+    }
+    .product-group-head span {
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .product-card {
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+    }
+    .product-card .meta {
+      font-size: .8rem;
+      color: #525252;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      margin-top: 4px;
+    }
+    .partner-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .partner-card { padding: 18px; display: grid; gap: 10px; }
+    .footer-cta {
+      margin-top: 24px;
+      background: linear-gradient(180deg, #f4f4f4 0%, #fafafa 100%);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .footer-cta-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 34px 0;
+    }
+    .footer-cta h2 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+    }
+    .footer-cta p { margin: 0; color: var(--muted); }
+    footer {
+      padding: 26px 0 40px;
+      color: #6f6f6f;
+      font-size: .88rem;
+    }
+    @media (max-width: 1080px) {
+      .hero-grid, .footer-cta-inner { grid-template-columns: 1fr; }
+      .category-grid, .products-grid, .partner-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .container { width: min(1240px, calc(100% - 28px)); }
+      .navlinks { display: none; }
+      .category-grid, .products-grid, .partner-grid { grid-template-columns: 1fr; }
+      .topbar { padding: 0 14px; }
+    }
+  
+    .product-card {
+      cursor: pointer;
+      position: relative;
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+    }
+    .product-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 12px 24px rgba(0,0,0,.08);
+    }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(22,22,22,.58);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 1000;
+    }
+    .modal-backdrop.open { display: flex; }
+    .service-modal {
+      width: min(860px, 100%);
+      max-height: min(88vh, 900px);
+      overflow: auto;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 20px 80px rgba(0,0,0,.28);
+    }
+    .service-modal-header {
+      padding: 24px 28px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: start;
+      background: linear-gradient(180deg, #fbfbfb 0%, #f4f4f4 100%);
+    }
+    .service-modal-header h3 {
+      margin: 6px 0 8px;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+    }
+    .service-modal-header .kicker {
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #6f6f6f;
+    }
+    .service-modal-header p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 620px;
+      line-height: 1.5;
+    }
+    .close-modal {
+      border: 1px solid var(--line);
+      background: #fff;
+      width: 40px;
+      height: 40px;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+    .service-modal-body {
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 28px;
+    }
+    .service-modal-body h4 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .service-modal-body p {
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .service-modal-body ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      display: grid;
+      gap: 10px;
+      line-height: 1.5;
+    }
+    .modal-side-card {
+      border: 1px solid var(--line);
+      background: var(--soft-2);
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+      align-self: start;
+    }
+    .modal-side-card .label {
+      font-size: .76rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #6f6f6f;
+    }
+    @media (max-width: 900px) {
+      .service-modal-body { grid-template-columns: 1fr; }
+    }
+
+  
+    .filters-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 26px 0 8px;
+      align-items: center;
+    }
+    .filters-label {
+      font-size: .84rem;
+      color: #6f6f6f;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-right: 6px;
+    }
+    .filter-chip {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      padding: 10px 14px;
+      font: inherit;
+      font-size: .92rem;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+    .filter-chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .filter-chip.active {
+      background: var(--dark);
+      color: #fff;
+      border-color: var(--dark);
+    }
+    .product-group.is-hidden {
+      display: none;
+    }
+    .filter-empty-state {
+      display: none;
+      border: 1px solid var(--line);
+      background: var(--soft-2);
+      padding: 20px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <span>Sovereign Core</span>
+      </div>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#categories">Categories</a>
+        <a href="#products">Offerings</a>
+        <a href="#partners">Partners</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="container">
+      <div class="breadcrumbs">Home / Products</div>
+      <div class="hero-grid">
+        <div>
+          <h1>Sovereign Core Ecosystem</h1>
+          <p>
+            Explore the current set of platform products, partner technologies, and services being considered for the Sovereign Core showcase. This page mirrors the IBM products experience while organizing the offerings captured in the source material into a single, easy-to-scan view.
+          </p>
+          <div class="cta-row">
+            <a class="btn primary" href="#products">Explore offerings</a>
+            <a class="btn" href="#partners">View partner ecosystem</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+    <section id="categories">
+      <div class="section-head">
+        <h2>Browse by category</h2>
+        <p>Categories are based on the appendix and working list shown in the uploaded images, streamlined into a one-page showcase layout.</p>
+      </div>
+      <div class="category-grid">
+        <article class="category-card">
+          <div class="eyebrow">Category</div>
+          <h3>AI &amp; Data Platforms</h3>
+          <p>AI frameworks, model services, data platforms, orchestration, and core analytics capabilities for sovereign environments.</p>
+          <span class="tag">Foundation offerings</span>
+        </article>
+        <article class="category-card">
+          <div class="eyebrow">Category</div>
+          <h3>Security &amp; Compliance</h3>
+          <p>Identity, encryption, compliance monitoring, and governance capabilities needed for regulated and sovereign deployments.</p>
+          <span class="tag">Trust and controls</span>
+        </article>
+        <article class="category-card">
+          <div class="eyebrow">Category</div>
+          <h3>Data Management &amp; Databases</h3>
+          <p>Database engines, data processing, replication, archival, and supporting platforms for operational and analytical workloads.</p>
+          <span class="tag">Data backbone</span>
+        </article>
+        <article class="category-card">
+          <div class="eyebrow">Category</div>
+          <h3>Operations &amp; Services</h3>
+          <p>Observability, asset management, cost optimization, consulting, deployment, migration, training, and lifecycle services.</p>
+          <span class="tag">Run and maintain</span>
+        </article>
+      </div>
+      <div class="filter-empty-state" id="filterEmptyState">No offerings match the selected category.</div>
+    </section>
+
+    <section id="products">
+      <div class="section-head">
+        <h2>Featured offerings</h2>
+        <p>The tiles below are built from the products and services visible in the uploaded screenshots and organized by their working category.</p>
+      </div>
+
+      <div class="filters-bar" aria-label="Offering filters">
+        <div class="filters-label">Filter by category</div>
+        <button class="filter-chip active" type="button" data-filter="all">All</button>
+        <button class="filter-chip" type="button" data-filter="AI &amp; Data Platforms">AI &amp; Data Platforms</button>
+        <button class="filter-chip" type="button" data-filter="Business Applications &amp; Automation">Business Applications &amp; Automation</button>
+        <button class="filter-chip" type="button" data-filter="Data Management &amp; Databases">Data Management &amp; Databases</button>
+        <button class="filter-chip" type="button" data-filter="Operations &amp; Services">Operations &amp; Services</button>
+      </div>
+
+      <div class="products-wrap">
+        <div class="product-group">
+          <div class="product-group-head">
+            <h3>AI &amp; data platforms</h3>
+            <span>Priority platform and application layer</span>
+          </div>
+          <div class="products-grid">
+            <article class="product-card" data-category="AI &amp; Data Platforms" tabindex="0" role="button" aria-label="Open details for watsonx.ai" data-title="watsonx.ai" data-subtitle="AI studio and model platform" data-overview="Supports model development, inferencing, and AI application building in environments that need control, governance, and enterprise integration." data-fit="Model development and tuning||Prompt engineering and AI app building||Enterprise AI deployment patterns" data-why="Included as a core AI-layer offering for governed AI and sovereignty-sensitive environments."><div class="eyebrow">IBM</div><h3>watsonx.ai</h3><p>Foundation model and AI platform offering included in the working list.</p><div class="meta">Type: AI &amp; Data Platforms</div></article>
+            <article class="product-card" data-category="AI &amp; Data Platforms" tabindex="0" role="button" aria-label="Open details for watsonx.gov" data-title="watsonx.gov" data-subtitle="Government-oriented AI offering" data-overview="Positioned for public-sector and regulated settings that need stronger operational control, deployment flexibility, and governance alignment." data-fit="Government and public-sector workloads||Controlled AI environments||Policy-aware deployment discussions" data-why="Signals support for regulated and sovereignty-focused AI use cases."><div class="eyebrow">IBM</div><h3>watsonx.gov</h3><p>Government-oriented watsonx offering captured in the source list.</p><div class="meta">Type: AI &amp; Data Platforms</div></article>
+            <article class="product-card" data-category="AI &amp; Data Platforms" tabindex="0" role="button" aria-label="Open details for watsonx.data.*" data-title="watsonx.data.*" data-subtitle="Data platform family" data-overview="Represents the data-layer family used for governed data access, analytics, and AI data preparation across hybrid environments." data-fit="Lakehouse and analytics scenarios||Data access for AI||Governed enterprise data patterns" data-why="Serves as the data foundation under the AI and application layer."><div class="eyebrow">IBM</div><h3>watsonx.data.*</h3><p>Data platform family listed as part of the sovereign showcase candidates.</p><div class="meta">Type: AI &amp; Data Platforms</div></article>
+            <article class="product-card" data-category="AI &amp; Data Platforms" tabindex="0" role="button" aria-label="Open details for wx.orchestrate" data-title="wx.orchestrate" data-subtitle="Workflow and AI orchestration" data-overview="Highlights orchestration of tasks, assistants, and business workflows across enterprise systems and user journeys." data-fit="Assistant-led workflows||Task automation||Cross-system orchestration" data-why="Adds an action and automation layer above the core platform."><div class="eyebrow">IBM</div><h3>wx.orchestrate</h3><p>Orchestration-focused offering shown in the candidate tile inventory.</p><div class="meta">Type: AI &amp; Data Platforms</div></article>
+            <article class="product-card" data-category="AI &amp; Data Platforms" tabindex="0" role="button" aria-label="Open details for Cloud Pak for Data" data-title="Cloud Pak for Data" data-subtitle="Unified data and AI platform" data-overview="IBM’s integrated platform for data, analytics, and AI workloads, often used where hybrid-cloud operation and governance matter." data-fit="Data and AI platform consolidation||Governed analytics||Multi-service platform environments" data-why="A flagship platform offering in the broader catalog."><div class="eyebrow">IBM</div><h3>Cloud Pak for Data</h3><p>Core platform offering included as a showcase candidate.</p><div class="meta">Type: AI &amp; Data Platforms</div></article>
+            <article class="product-card" data-category="AI &amp; Data Platforms" tabindex="0" role="button" aria-label="Open details for Cognos Analytics" data-title="Cognos Analytics" data-subtitle="Business intelligence and reporting" data-overview="Focused on dashboards, reporting, and business visibility for customers who need governed analytics on top of enterprise data." data-fit="Executive reporting||Operational dashboards||Governed business intelligence" data-why="Provides an analytics consumption layer for the page."><div class="eyebrow">IBM</div><h3>Cognos Analytics</h3><p>Analytics offering listed under the AI and data platform grouping.</p><div class="meta">Type: AI &amp; Data Platforms</div></article>
+            <article class="product-card" data-category="AI &amp; Data Platforms" tabindex="0" role="button" aria-label="Open details for Mistral AI" data-title="Mistral AI" data-subtitle="AI ecosystem partner" data-overview="Shown as an ecosystem AI partner option to indicate model choice, openness, and partner-led AI motions in sovereign or regulated settings." data-fit="Model ecosystem expansion||European AI positioning||Partner-led AI offerings" data-why="Adds ecosystem depth and signals model choice."><div class="eyebrow">Partner</div><h3>Mistral AI</h3><p>Partner AI offering captured in the partner products and services list.</p><div class="meta">Type: AI &amp; Data Platforms</div></article>
+            <article class="product-card" data-category="Business Applications &amp; Automation" tabindex="0" role="button" aria-label="Open details for Cloud Pak for Business Automation" data-title="Cloud Pak for Business Automation" data-subtitle="Business automation platform" data-overview="Brings workflow, content, decisioning, and process automation capabilities to enterprise transformation programs." data-fit="Document and workflow automation||Case management||Decision-intensive processes" data-why="Shows business process modernization in the overall portfolio."><div class="eyebrow">IBM</div><h3>Cloud Pak for Business Automation</h3><p>Business applications and automation offering included in the working inventory.</p><div class="meta">Type: Business Applications &amp; Automation</div></article>
+          </div>
+        </div>
+
+        <div class="product-group">
+          <div class="product-group-head">
+            <h3>Data management, databases, and engineering</h3>
+            <span>Core information and lifecycle tooling</span>
+          </div>
+          <div class="products-grid">
+            <article class="product-card" data-category="Integration &amp; Data Movement" tabindex="0" role="button" aria-label="Open details for IBM Replication" data-title="IBM Replication" data-subtitle="Data movement and synchronization" data-overview="Supports movement of data across systems for availability, modernization, migration, and analytics use cases." data-fit="Operational data movement||Hybrid replication||Migration and resilience scenarios" data-why="Important for cross-environment data continuity."><div class="eyebrow">IBM</div><h3>IBM Replication</h3><p>Integration and data movement capability identified in the source table.</p><div class="meta">Type: Integration &amp; Data Movement</div></article>
+            <article class="product-card" data-category="Data Management &amp; Databases" tabindex="0" role="button" aria-label="Open details for IBM Db2" data-title="IBM Db2" data-subtitle="Enterprise database platform" data-overview="Represents transactional and analytical database capabilities that can underpin managed data services and regulated application estates." data-fit="Core operational databases||Managed database services||Application data backbone" data-why="A foundational data service in the catalog."><div class="eyebrow">IBM</div><h3>IBM Db2</h3><p>Database offering listed in the showcase planning sheet.</p><div class="meta">Type: Data Management &amp; Databases</div></article>
+            <article class="product-card" data-category="Data Management &amp; Databases" tabindex="0" role="button" aria-label="Open details for IBM Optim" data-title="IBM Optim" data-subtitle="Test data, privacy, and archival" data-overview="Useful for lifecycle management, data privacy, archival, and non-production data handling in controlled environments." data-fit="Test data management||Data privacy workflows||Archival and retention" data-why="Relevant where data governance and lifecycle control matter."><div class="eyebrow">IBM</div><h3>IBM Optim</h3><p>Data management and archival related offering included in the table.</p><div class="meta">Type: Data Management &amp; Databases</div></article>
+            <article class="product-card" data-category="Engineering tools" tabindex="0" role="button" aria-label="Open details for ELM" data-title="ELM" data-subtitle="Engineering lifecycle management" data-overview="Supports requirements, development, testing, and traceability processes for engineering-intensive organizations." data-fit="Requirements traceability||Development governance||Engineering workflow support" data-why="Broadens the catalog into engineering and regulated development scenarios."><div class="eyebrow">IBM</div><h3>ELM</h3><p>Engineering lifecycle management tools identified in the candidate list.</p><div class="meta">Type: Engineering tools</div></article>
+            <article class="product-card" data-category="AI-powered software development tools" tabindex="0" role="button" aria-label="Open details for Bob" data-title="Bob" data-subtitle="Working-code or incubation offering" data-overview="Included as a named offering in the source material and presented here as a placeholder ecosystem tile." data-fit="Internal incubation programs||Showcase and planning artifacts||Portfolio working view" data-why="Retained because it appeared in the uploaded source material."><div class="eyebrow">IBM</div><h3>Bob</h3><p>AI-powered software development tooling noted in the status column for later consideration.</p><div class="meta">Type: AI-powered software development tools</div></article>
+            <article class="product-card" data-category="Integration" tabindex="0" role="button" aria-label="Open details for webMethods Hybrid Integration" data-title="webMethods Hybrid Integration" data-subtitle="Integration across environments" data-overview="Covers application, API, and integration patterns that connect data, apps, and workflows across hybrid estates." data-fit="Application integration||API-led architecture||Cross-environment connectivity" data-why="Important for tying together distributed enterprise systems."><div class="eyebrow">IBM</div><h3>webMethods Hybrid Integration</h3><p>Hybrid integration entry shown with onboarding follow-up comments in the source sheet.</p><div class="meta">Type: Integration</div></article>
+            <article class="product-card" data-category="IT Operations &amp; Asset Management" tabindex="0" role="button" aria-label="Open details for HashiCorp products" data-title="HashiCorp products" data-subtitle="Infrastructure and secrets tooling" data-overview="Represents infrastructure automation, secrets, and platform operations tooling commonly used in controlled deployments." data-fit="Secrets and vaulting||Provisioning and automation||Operational platform tooling" data-why="Helpful for the control-plane and operations foundation story."><div class="eyebrow">IBM</div><h3>HashiCorp products</h3><p>Infrastructure and operations-related tooling included in the inventory.</p><div class="meta">Type: IT Operations &amp; Asset Management</div></article>
+            <article class="product-card" data-category="Consulting &amp; Lifecycle Services" tabindex="0" role="button" aria-label="Open details for IBM Expert Lab Install and Migration Services" data-title="IBM Expert Lab Install and Migration Services" data-subtitle="Advisory and delivery services" data-overview="Services-led tile for implementation, onboarding, migration, and platform rollout support." data-fit="Deployment support||Migration planning||Accelerated onboarding" data-why="Adds a practical delivery path in addition to software products."><div class="eyebrow">Services</div><h3>IBM Expert Lab Install and Migration Services</h3><p>Consulting and lifecycle services offering listed for deployment and migration support.</p><div class="meta">Type: Consulting &amp; Lifecycle Services</div></article>
+          </div>
+        </div>
+
+        <div class="product-group">
+          <div class="product-group-head">
+            <h3>Operations, asset management, and platform support</h3>
+            <span>Day-2 operations and optimization</span>
+          </div>
+          <div class="products-grid">
+            <article class="product-card" data-category="Asset Management" tabindex="0" role="button" aria-label="Open details for Maximo" data-title="Maximo" data-subtitle="Asset and operations management" data-overview="Supports operational resilience and asset-intensive environments that need visibility, maintenance, and process control." data-fit="Asset-heavy industries||Operational workflows||Reliability and maintenance use cases" data-why="Shows how the catalog extends into operational solutions."><div class="eyebrow">IBM</div><h3>Maximo</h3><p>Asset management offering included in the working catalog.</p><div class="meta">Type: Asset Management</div></article>
+            <article class="product-card" data-category="IT Operations &amp; Asset Management" tabindex="0" role="button" aria-label="Open details for IBM Instana" data-title="IBM Instana" data-subtitle="Observability and monitoring" data-overview="Provides application and platform observability for performance visibility, issue detection, and operational troubleshooting." data-fit="Application observability||Performance monitoring||Operational diagnostics" data-why="Relevant to day-2 operations and platform reliability."><div class="eyebrow">IBM</div><h3>IBM Instana</h3><p>Operations and observability entry captured in the list.</p><div class="meta">Type: IT Operations &amp; Asset Management</div></article>
+            <article class="product-card" data-category="IT Operations &amp; Asset Management" tabindex="0" role="button" aria-label="Open details for IBM Turbonomic" data-title="IBM Turbonomic" data-subtitle="Resource optimization" data-overview="Focuses on application resource optimization and infrastructure efficiency to improve performance and control cost." data-fit="Capacity optimization||Performance and cost balance||Resource decision support" data-why="Complements observability with optimization and efficiency."><div class="eyebrow">IBM</div><h3>IBM Turbonomic</h3><p>Optimization and operations management product included in the candidate set.</p><div class="meta">Type: IT Operations &amp; Asset Management</div></article>
+            <article class="product-card" data-category="IT Operations &amp; Asset Management" tabindex="0" role="button" aria-label="Open details for Kubecost" data-title="Kubecost" data-subtitle="Kubernetes cost visibility" data-overview="Provides cost transparency and usage visibility for Kubernetes-based environments and shared platform operations." data-fit="Cluster cost allocation||Chargeback and visibility||Kubernetes financial operations" data-why="Useful for shared platform governance and accountability."><div class="eyebrow">IBM</div><h3>Kubecost</h3><p>Cost management and operations tooling listed with the supporting products.</p><div class="meta">Type: IT Operations &amp; Asset Management</div></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="partners">
+      <div class="section-head">
+        <h2>Partner ecosystem</h2>
+        <p>Partner products and services that appear in the uploaded inventory, grouped into the same product-style browsing experience.</p>
+      </div>
+      <div class="partner-grid">
+        <article class="partner-card"><div class="eyebrow">Infrastructure</div><h3>Dell</h3><p>Infrastructure ecosystem partner included in the working list.</p></article>
+        <article class="partner-card"><div class="eyebrow">Infrastructure</div><h3>Intel</h3><p>Infrastructure partner identified in the partner products sheet.</p></article>
+        <article class="partner-card"><div class="eyebrow">Infrastructure</div><h3>AMD</h3><p>Infrastructure category partner listed for the ecosystem view.</p></article>
+        <article class="partner-card"><div class="eyebrow">Infrastructure</div><h3>NVIDIA</h3><p>Infrastructure and acceleration partner included in the list.</p></article>
+        <article class="partner-card"><div class="eyebrow">MSP</div><h3>NCI</h3><p>Managed service provider entry shown in the partner inventory.</p></article>
+        <article class="partner-card"><div class="eyebrow">MSP</div><h3>Seclia</h3><p>MSP category partner referenced in the uploaded image.</p></article>
+        <article class="partner-card"><div class="eyebrow">MSP</div><h3>Computacenter</h3><p>MSP ecosystem partner included in the partner table.</p></article>
+        <article class="partner-card"><div class="eyebrow">Security</div><h3>Palo Alto</h3><p>Security-focused partner offering listed in the ecosystem candidate set.</p></article>
+        <article class="partner-card"><div class="eyebrow">SI</div><h3>Deloitte</h3><p>Systems integrator entry included as part of the ecosystem lineup.</p></article>
+        <article class="partner-card"><div class="eyebrow">Migration</div><h3>Red Hat VM Migration Services</h3><p>Migration-oriented services noted in the source material.</p></article>
+        <article class="partner-card"><div class="eyebrow">AI &amp; Data Platforms</div><h3>Mistral AI</h3><p>AI partner option shown in the partner products and services table.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer-cta">
+    <div class="container footer-cta-inner">
+      <div>
+        <h2>Designed as a one-page showcase replica</h2>
+        <p>Built from the uploaded screenshots and structured to echo the IBM products page style, while replacing the retail catalog with Sovereign Core-relevant offerings.</p>
+      </div>
+      <a class="btn primary" href="#categories">Back to top</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      Internal showcase concept page based on uploaded planning materials. This replica preserves the overall IBM-style visual language while substituting the product content from the ZIP file.
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="serviceModalBackdrop" aria-hidden="true">
+    <div class="service-modal" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
+      <div class="service-modal-header">
+        <div>
+          <div class="kicker" id="serviceModalKicker">Service details</div>
+          <h3 id="serviceModalTitle">Service title</h3>
+          <p id="serviceModalSubtitle">Additional information about the selected service.</p>
+        </div>
+        <button class="close-modal" id="closeServiceModal" aria-label="Close details">×</button>
+      </div>
+      <div class="service-modal-body">
+        <div>
+          <h4>Overview</h4>
+          <p id="serviceModalOverview"></p>
+          <h4>Relevant uses</h4>
+          <ul id="serviceModalFit"></ul>
+        </div>
+        <div class="modal-side-card">
+          <div class="label">Why it appears on this page</div>
+          <p id="serviceModalWhy"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const cards = document.querySelectorAll('.product-card');
+      const groups = document.querySelectorAll('.product-group');
+      const filterChips = document.querySelectorAll('.filter-chip');
+      const emptyState = document.getElementById('filterEmptyState');
+      const backdrop = document.getElementById('serviceModalBackdrop');
+      const closeBtn = document.getElementById('closeServiceModal');
+      const titleEl = document.getElementById('serviceModalTitle');
+      const kickerEl = document.getElementById('serviceModalKicker');
+      const subtitleEl = document.getElementById('serviceModalSubtitle');
+      const overviewEl = document.getElementById('serviceModalOverview');
+      const fitEl = document.getElementById('serviceModalFit');
+      const whyEl = document.getElementById('serviceModalWhy');
+      let lastTrigger = null;
+
+      function applyFilter(filterValue) {
+        let visibleCards = 0;
+        cards.forEach(function(card) {
+          const show = filterValue === 'all' || card.dataset.category === filterValue;
+          card.style.display = show ? '' : 'none';
+          if (show) visibleCards += 1;
+        });
+
+        groups.forEach(function(group) {
+          const visibleInGroup = Array.from(group.querySelectorAll('.product-card')).some(function(card) {
+            return card.style.display !== 'none';
+          });
+          group.classList.toggle('is-hidden', !visibleInGroup);
+        });
+
+        if (emptyState) {
+          emptyState.style.display = visibleCards === 0 ? 'block' : 'none';
+        }
+
+        filterChips.forEach(function(chip) {
+          chip.classList.toggle('active', chip.dataset.filter === filterValue);
+        });
+      }
+
+      filterChips.forEach(function(chip) {
+        chip.addEventListener('click', function() {
+          applyFilter(chip.dataset.filter);
+        });
+      });
+
+      function openServiceModal(card) {
+        lastTrigger = card;
+        titleEl.textContent = card.dataset.title || 'Service';
+        kickerEl.textContent = (card.querySelector('.eyebrow') || {}).textContent || 'Service details';
+        subtitleEl.textContent = card.dataset.subtitle || '';
+        overviewEl.textContent = card.dataset.overview || '';
+        whyEl.textContent = card.dataset.why || '';
+        fitEl.innerHTML = '';
+        (card.dataset.fit || '').split('||').filter(Boolean).forEach(function(item) {
+          const li = document.createElement('li');
+          li.textContent = item;
+          fitEl.appendChild(li);
+        });
+        backdrop.classList.add('open');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeServiceModal() {
+        backdrop.classList.remove('open');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        if (lastTrigger) lastTrigger.focus();
+      }
+
+      cards.forEach(function(card) {
+        card.addEventListener('click', function() { openServiceModal(card); });
+        card.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openServiceModal(card);
+          }
+        });
+      });
+
+      closeBtn.addEventListener('click', closeServiceModal);
+      backdrop.addEventListener('click', function(e) {
+        if (e.target === backdrop) closeServiceModal();
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && backdrop.classList.contains('open')) closeServiceModal();
+      });
+    });
+  </script>
+</body>
+</html>

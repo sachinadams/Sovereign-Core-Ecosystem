@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sovereign Core Ecosystem</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       TOP NAVIGATION BAR
+  ============================================================ -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <span id="brandName">Sovereign Core</span>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <div class="hero">
+    <div class="hero-inner">
+      <h1 id="heroTitle">Sovereign Core Ecosystem</h1>
+      <p id="heroSubtitle">Explore platform products, partner technologies, and services.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#productsGrid">Explore offerings</a>
+        <a class="btn" href="#partnersGrid">View partner ecosystem</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       MAIN LAYOUT — left sidebar filter + scrollable content
+  ============================================================ -->
+  <div class="page-body">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Filter by category</div>
+      <select class="filter-select" id="categoryFilter" aria-label="Filter by category">
+        <option value="all">All categories</option>
+        <!-- Additional options are injected by app.js from data.js -->
+      </select>
+      <div class="sidebar-title" style="margin-top:1.25rem;">Filter by source</div>
+      <select class="filter-select" id="vendorFilter" aria-label="Filter by source">
+        <option value="all">All</option>
+        <option value="IBM">IBM</option>
+        <option value="Partner">Partner</option>
+      </select>
+    </aside>
+
+    <!-- Scrollable content -->
+    <div class="content-area">
+
+      <!-- Offerings -->
+      <div class="section-label" id="productsLabel">Offerings</div>
+      <div class="cards-grid" id="productsGrid" aria-label="Offerings">
+        <!-- Product cards are rendered here by app.js -->
+      </div>
+
+      <!-- Partner ecosystem -->
+      <div class="section-label partners-label" id="partnersLabel">Partner Ecosystem</div>
+      <div class="cards-grid" id="partnersGrid" aria-label="Partner ecosystem">
+        <!-- Partner cards are rendered here by app.js -->
+      </div>
+
+      <!-- Shown when no cards match the selected filter -->
+      <div class="empty-state" id="emptyState">No offerings match the selected category.</div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="footer-inner" id="footerNote">Sovereign Core</div>
+  </footer>
+
+
+  <!-- ============================================================
+       DETAIL MODAL (opened when clicking a product card)
+  ============================================================ -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="service-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+      <div class="modal-header">
+        <div>
+          <div class="modal-kicker" id="modalKicker"></div>
+          <h3 id="modalTitle">Title</h3>
+          <p id="modalSubtitle"></p>
+        </div>
+        <div class="modal-header-right">
+          <div class="modal-badges">
+
+            <div class="modal-badge sovereignty-badge" id="sovereigntyBadge">
+              <div class="modal-badge-main">
+                <svg class="badge-icon sovereignty-icon" viewBox="0 0 14 16" fill="none" aria-hidden="true">
+                  <path d="M7 1L1.5 3.5v5C1.5 12.5 4 15 7 15.5c3-.5 5.5-3 5.5-7v-5L7 1z" fill="currentColor"/>
+                  <polyline points="4.5,8.5 6,10 9.5,6.5" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="badge-label" id="modalSovereigntyText">Level —</span>
+              </div>
+              <div class="badge-desc" id="sovereigntyDesc"></div>
+            </div>
+
+            <div class="modal-badge tier-badge" id="tierBadge">
+              <div class="modal-badge-main">
+                <svg class="badge-icon tier-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 1a1 1 0 0 1 .9.6l.6 1.3a5.5 5.5 0 0 1 1 .6l1.4-.4a1 1 0 0 1 1 .5l1 1.7a1 1 0 0 1-.2 1.2l-1.1.9v1.2l1.1.9a1 1 0 0 1 .2 1.2l-1 1.7a1 1 0 0 1-1 .5l-1.4-.4a5.5 5.5 0 0 1-1 .6l-.6 1.3A1 1 0 0 1 8 15a1 1 0 0 1-.9-.6l-.6-1.3a5.5 5.5 0 0 1-1-.6l-1.4.4a1 1 0 0 1-1-.5l-1-1.7a1 1 0 0 1 .2-1.2l1.1-.9V7.8l-1.1-.9A1 1 0 0 1 2.1 5.7l1-1.7a1 1 0 0 1 1-.5l1.4.4a5.5 5.5 0 0 1 1-.6l.6-1.3A1 1 0 0 1 8 1z" fill="currentColor"/>
+                  <circle cx="8" cy="8" r="2.2" fill="white"/>
+                </svg>
+                <span class="badge-label" id="modalTierText">Tier —</span>
+              </div>
+              <div class="badge-desc" id="tierDesc"></div>
+            </div>
+
+          </div>
+          <button class="close-modal" id="closeModal" aria-label="Close details">×</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <h4>Overview</h4>
+        <p id="modalOverview"></p>
+        <h4>Relevant uses</h4>
+        <ul id="modalUses"></ul>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Load data first so app.js can read it -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
